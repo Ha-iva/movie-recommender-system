@@ -7,7 +7,7 @@ import requests
 movie_list = pickle.load(open("movies_dict.pkl", "rb"))
 similarity = pickle.load(open("similarity.pkl", "rb"))
 
-# movies = movie_list['title'].values()
+
 movies = pd.DataFrame(movie_list)
 
 def fetch_poster(movie_name):
@@ -18,7 +18,6 @@ def fetch_poster(movie_name):
 def recommend(movie):
     # Get the index of the movie in the movie list
     index = movies[movies['title'] == movie].index[0]
-    # index = list(movies.values()).index(movie)
     
     # Get the distances (similarities) for the selected movie
     distances = similarity[index]
@@ -30,11 +29,9 @@ def recommend(movie):
     recommend_movies = []
     recommend_movies_poster=[]
     for i in movies_list: 
-        # movie_id = i[0] 
         name=movies.iloc[i[0]].title
         # Start from index 1 to exclude the input movie itself
-        recommend_movies.append(movies.iloc[i[0]].title)  # i[0] gives the movie index
-        # recommend_movies_poster.append(fetch_poster(movie_id))
+        recommend_movies.append(movies.iloc[i[0]].title) 
         recommend_movies_poster.append(fetch_poster(name))
     
     return recommend_movies,recommend_movies_poster
@@ -45,33 +42,6 @@ selected = st.selectbox("Select a movie", movies["title"].values)
 if st.button("Recommend"):
     names,posters = recommend(selected)
     
-    # col=st.columns(5)
-    
-    # for i in range(5):
-    #     with col[i]:
-    #         st.write(names[i])
-    #         st.image(posters[i])
-    
-    # with col1:
-    #     st.write(names[0])
-    #     st.image(posters[0])
-    # with col2:
-    #     st.write(names[1])
-    #     st.image(posters[1])
-    # with col3:
-    #     st.write(names[2])
-    #     st.image(posters[2])
-        
-    # print("\n")
-    
-    # with col4:
-    #     st.write(names[3])
-    #     st.image(posters[3])
-    # with col5:
-    #     st.write(names[4])
-    #     st.image(posters[4])
-
-
     
     cols1 = st.columns(3)  # First row of 3 columns
     cols2 = st.columns(3)
